@@ -4,12 +4,12 @@ export class E2ELink extends E2EBase {
 	isID: boolean;
 
 	async select(): Promise<any> {
-		const point = await page.evaluate(id => {
+		const point = await page.evaluate((id) => {
 			const path = document.querySelector(id) as SVGPathElement;
-			const point = path.getPointAtLength(path.getTotalLength() / 2);
+			const rect = path.getClientRects().item(0);
 			return {
-				x: point.x,
-				y: point.y
+				x: rect.x + rect.width / 2,
+				y: rect.y
 			};
 		}, this.selector());
 		await page.keyboard.down('Shift');
